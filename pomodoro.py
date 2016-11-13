@@ -50,14 +50,14 @@ def mark_card():
     if len(working.list_cards()) > 0: working.list_cards()[0].comment(comment)
     
 def start_timer(minutes):
-    seconds = minutes
+    seconds = minutes * 60
     for time_since in range(0, seconds):
         m, s = divmod((seconds - time_since), 60)
         print("%02d:%02d" % (m, s))
         sleep(1)
         print(chr(27) + "[2J") # clear terminal
     play_sound()
-    mark_card()
+    if(minutes == 25): mark_card()
 
 def play_sound():
     mixer.music.load('OOT_Secret.wav')

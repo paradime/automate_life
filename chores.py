@@ -17,9 +17,6 @@ def send_sms(task):
     message = ("Your " + task + " is done")
     client.messages.create(body=message, to='5163616129', from_='+15168744020')
 
-def print_hello(task):
-    print(message)
-
 def delay(minutes, task):
     s = sched.scheduler(time.time, time.sleep)
     s.enter(minutes*60, 1, send_sms, (task,))
