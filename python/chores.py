@@ -2,7 +2,7 @@ from twilio.rest import TwilioRestClient
 import sched, time
 import json
 
-time_dict = {'d': 60, 'dishwasher': 60, 'test': 1}
+time_dict = {'d': 60, 'w': 40, 'dishwasher': 60, 'test': 1}
 with open('config.json') as data_file:
     data = json.load(data_file)
 

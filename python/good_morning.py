@@ -19,6 +19,7 @@ while(True):
     beginning = datetime.datetime(today.year, today.month, today.day)
     while(str(beginning)== date):
         time.sleep(60)
+        today = datetime.datetime.today()
         beginnig = datetime.datetime(today.year, today.month, today.day)
     f = open('date', 'w')
     f.write(str(beginning))

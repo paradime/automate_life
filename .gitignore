@@ -90,3 +90,6 @@ ENV/
 
 # Config files
 *.json
+node_modules
+*.swp
+*.swo
