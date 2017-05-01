@@ -2,19 +2,23 @@ from trello import TrelloClient
 from time import sleep
 from pygame import mixer
 from datetime import datetime
+import os
 import json
 """
 TODO: 
 pull credentials from a file
 make OO
-"""
+""" 
+fileDir = os.path.dirname(os.path.realpath('__file__'))
+ocarina = os.path.join(fileDir, '../OOT_Secret.wav')
+config_file = os.path.join(fileDir, '../config.json')
 times = {'w': 25, 'r': 5}
 mixer.init(frequency=32000)
 todo_list = '5810b18d4e03d4ebbb720c59'
 working_list = '57bc53df9cb4d2b03128c6f1'
 done_list = '57bc53d84d25a907e342159f'
 
-with open('config.json') as data_file:
+with open(config_file) as data_file:
     data = json.load(data_file)
 key = data['trello']['api_key']
 api_secret = data['trello']['api_secret']
@@ -60,7 +64,7 @@ def start_timer(minutes):
     if(minutes == 25): mark_card()
 
 def play_sound():
-    mixer.music.load('OOT_Secret.wav')
+    mixer.music.load(ocarina)
     mixer.music.play()
 
 while(True):
