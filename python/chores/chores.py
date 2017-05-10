@@ -1,4 +1,4 @@
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 import threading
 import json
 
