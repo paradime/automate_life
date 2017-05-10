@@ -18,7 +18,7 @@ class Chores:
     def send_sms(self, task):
         account_sid = self.data['twilio']['account_sid']
         auth_token = self.data['twilio']['auth_token']
-        client = TwilioRestClient(account_sid, auth_token)
+        client = Client(account_sid, auth_token)
         message = ("Your " + task + " is done")
         client.messages.create(body=message, 
                 to= self.data['twilio']['to_number'],
