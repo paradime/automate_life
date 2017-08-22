@@ -10,7 +10,7 @@ times = {'w': 25, 'r': 5}
 mixer.init(frequency=32000)
 
 def read():
-    block = input('Is this a (w)ork or (r)est block?(w or r)')
+    block = input('Is this a (w)ork or (r)est block?(w or r) ')
     if block == 'r':
         start_timer(times[block])
     else:
@@ -19,13 +19,13 @@ def read():
             for i in range(len(tasks)):
                 print(str(i) + ': ' + tasks[i])
             print(str(len(tasks)) + ': New Task')
-            num = int(input('Choose a task'))
+            num = int(input('Choose a task '))
             if(num == len(tasks)):
-                task = input('What are you working on now?')
+                task = input('What are you working on now? ')
             else:
                 task = tasks[num]
         else:
-            task = input('What are you working on?')
+            task = input('What are you working on? ')
         start_timer(times[block])
         write_to_log(task)
     read()
