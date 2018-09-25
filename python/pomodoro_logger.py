@@ -7,7 +7,7 @@ import os
 import json
 fileDir = os.path.dirname(os.path.realpath('__file__'))
 ocarina = os.path.join(fileDir, '..\OOT_Secret.wav')
-times = {'w': 25, 'r': 5}
+times = {'w': 25, 'b': 5}
 mixer.init(frequency=32000)
 
 startText = """(w)ork block,
