@@ -1,7 +1,7 @@
 from pygame import mixer
 import sys
 from time import sleep
-import pytz
+# import pytz
 from datetime import datetime
 import os
 import json
@@ -9,15 +9,10 @@ fileDir = os.path.dirname(os.path.realpath('__file__'))
 ocarina = os.path.join(fileDir, '..\OOT_Secret.wav')
 times = {'w': 25, 'b': 5}
 mixer.init(frequency=32000)
-
-startText = """(w)ork block,
-(b)reak block,
-(l)ogging a task,
-(r)ead the log
-> """
+goal = 3
 
 def read():
-    block = input(startText)
+    block = input(generate_start_text())
     if block == 'b':
         start_timer(times[block])
     elif block == 'l':
@@ -40,6 +35,19 @@ def read():
         write_to_log(task)
     read()
 
+def generate_start_text():
+    startText = ('-'*goal)+'|-\n'
+    if (log_exists()):
+        tasks = list(set(map((lambda x: x.strip()), read_log())))
+        for task in tasks:
+            startText = startText.replace('-', 'X', 1)
+    startText += """(w)ork block,
+(b)reak block,
+(l)ogging a task,
+(r)ead the log
+> """
+    return startText
+    
 def write_to_log(task_name):
     index = len(read_log()) if log_exists() else 0
     with open(file_name_with_date(datetime.utcnow()), 'a+') as f:
