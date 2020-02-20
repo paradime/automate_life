@@ -10,6 +10,7 @@ ocarina = os.path.join(fileDir, '..\OOT_Secret.wav')
 times = {'w': 25, 'b': 5}
 mixer.init(frequency=32000)
 goal = 3
+run = True
 
 def read():
     block = input(generate_start_text())
@@ -21,6 +22,8 @@ def read():
     elif block == 'r':
         if(log_exists()):
             print_log()
+    elif block == 'e':
+        return "stop"
     else:
         if(log_exists()):
             tasks = existing_tasks()
@@ -45,6 +48,7 @@ def generate_start_text():
 (b)reak block,
 (l)ogging a task,
 (r)ead the log
+(e)xit the program
 > """
     return startText
     
@@ -71,14 +75,14 @@ def existing_tasks():
         tasks.append(' '.join(line.split()[1::]))
     return list(set(map((lambda x: x.strip()), tasks)))
 
-def file_name():
-    return datetime.utcnow().strftime('%d-%m-%y')+'.log'
+# def file_name(day_time=datetime.utcnow()):
+#     return day_time.strftime('%d-%m-%y')+'.log'
 
 def file_name_with_date(date):
     return date.strftime('%d-%m-%y.log')
 
-def log_exists():
-    return os.path.isfile(file_name_with_date(datetime.utcnow()))
+def log_exists(log_name = file_name_with_date(datetime.utcnow())):
+    return os.path.isfile(log_name)
 
 def start_timer(minutes):
     seconds = minutes * 60
@@ -97,17 +101,3 @@ def clear_terminal():
 def play_sound():
     mixer.music.load(ocarina)
     mixer.music.play()
-
-"""
-TESTS
-"""
-def test_file_name():
-    print(file_name_with_date(datetime(1901,2,3)) == '03-02-01.log')
-
-test_file_name()
-"""
-END TESTS
-"""
-
-while(True):
-    read()
