@@ -1,7 +1,7 @@
 from pygame import mixer
 import sys
 from time import sleep
-import pytz
+# import pytz
 from datetime import datetime
 import os
 import json
@@ -9,15 +9,11 @@ fileDir = os.path.dirname(os.path.realpath('__file__'))
 ocarina = os.path.join(fileDir, '..\OOT_Secret.wav')
 times = {'w': 25, 'b': 5}
 mixer.init(frequency=32000)
-
-startText = """(w)ork block,
-(b)reak block,
-(l)ogging a task,
-(r)ead the log
-> """
+goal = 3
+run = True
 
 def read():
-    block = input(startText)
+    block = input(generate_start_text())
     if block == 'b':
         start_timer(times[block])
     elif block == 'l':
@@ -26,6 +22,8 @@ def read():
     elif block == 'r':
         if(log_exists()):
             print_log()
+    elif block == 'e':
+        return "stop"
     else:
         if(log_exists()):
             tasks = existing_tasks()
@@ -40,6 +38,20 @@ def read():
         write_to_log(task)
     read()
 
+def generate_start_text():
+    startText = ('-'*goal)+'|-\n'
+    if (log_exists()):
+        tasks = list(set(map((lambda x: x.strip()), read_log())))
+        for task in tasks:
+            startText = startText.replace('-', 'X', 1)
+    startText += """(w)ork block,
+(b)reak block,
+(l)ogging a task,
+(r)ead the log
+(e)xit the program
+> """
+    return startText
+    
 def write_to_log(task_name):
     index = len(read_log()) if log_exists() else 0
     with open(file_name_with_date(datetime.utcnow()), 'a+') as f:
@@ -63,14 +75,14 @@ def existing_tasks():
         tasks.append(' '.join(line.split()[1::]))
     return list(set(map((lambda x: x.strip()), tasks)))
 
-def file_name():
-    return datetime.utcnow().strftime('%d-%m-%y')+'.log'
+# def file_name(day_time=datetime.utcnow()):
+#     return day_time.strftime('%d-%m-%y')+'.log'
 
 def file_name_with_date(date):
     return date.strftime('%d-%m-%y.log')
 
-def log_exists():
-    return os.path.isfile(file_name_with_date(datetime.utcnow()))
+def log_exists(log_name = file_name_with_date(datetime.utcnow())):
+    return os.path.isfile(log_name)
 
 def start_timer(minutes):
     seconds = minutes * 60
@@ -89,17 +101,3 @@ def clear_terminal():
 def play_sound():
     mixer.music.load(ocarina)
     mixer.music.play()
-
-"""
-TESTS
-"""
-def test_file_name():
-    print(file_name_with_date(datetime(1901,2,3)) == '03-02-01.log')
-
-test_file_name()
-"""
-END TESTS
-"""
-
-while(True):
-    read()
